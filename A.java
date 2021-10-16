@@ -1,46 +1,52 @@
-package q2.form_template_method1.refactored;
+package q1.extract_method.refactored;
+
+import java.util.List;
+
 
 public class A {
-   public static void main(String[] args) {
-      System.out.println("After");
-      System.out.println("m1:" + (new A().m1(0, 3)));
-      System.out.println("m2:" + (new A().m2(0, 3)));
-   }
+	Node m1(List<Node> nodes, String p) {
+		extracted(nodes, p);
+		return null;
+	}
 
-   int m1(int min, int max) {
-      return new M1().common(min, max);
-   }
+	Edge m2(List<Edge> edgeList, String p) {
+		extracted(edgeList, p);
+		return null;
+	}
 
-   int m2(int min, int max) {
-      return new M2().common(min, max);
+	<T extends Graph> void extracted(List<T> objs, String p) {
+		for (T obj : objs) {
+			if (obj.contains(p))
+				System.out.println(obj);
+		}
+		// other implementation
+		//return null;
+	}
+
+}
+
+class Graph{
+	String name;
+	boolean contains(String p) {
+		return name.contains(p);
+	}
+}
+	
+class Node extends Graph {
+   String name;
+
+   public boolean contains(String p) {
+      return name.contains(p);
    }
 }
 
-abstract class Template {
-   int common(int min, int max) {
-      int sum = 0;
-      // TODO: Replace the FOR statement below with your answer.
-      for (int i = min; i <= max; i++) {
-    	  sum += apply(i);
-      }
-      return sum;
-   }
+class Edge extends Graph {
+   String name;
 
-   abstract int apply(int i);
-}
-
-class M1 extends Template {
-
-   @Override
-   int apply(int i) {
-      return i;
+   public boolean contains(String p) {
+       return name.contains(p);
    }
 }
+   
 
-class M2 extends Template {
 
-   @Override
-   int apply(int i) {
-      return i * i;
-   }
-}
